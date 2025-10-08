@@ -146,7 +146,8 @@ class Server:
 
         elif config.uds is not None:  # pragma: py-win32
             # Create a socket using UNIX domain socket.
-            uds_perms = 0o666
+            # Use owner-only permission for new socket file.
+            uds_perms = 0o600
             if os.path.exists(config.uds):
                 uds_perms = os.stat(config.uds).st_mode  # pragma: full coverage
             server = await loop.create_unix_server(
